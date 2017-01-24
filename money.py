@@ -14,6 +14,26 @@ from time import time
 # with open(filename, 'rb') as input:
 #     test2 = pickle.load(input)
 
+VERBOSE = 0
+
+try:
+    (opts, args) = getopt.getopt(sys.argv[1:],"v:")
+except getopt.GetoptError:
+    print("Invalid options. Exiting...")
+    sys.exit()
+for (opt, arg) in opts:
+    if (opt in ("-v", "--verbose")):
+        if (arg in ('0', '1','2','3')):
+            VERBOSE = int(arg)
+        else:
+            print("Invalid options. Exiting...")
+            sys.exit()
+        print("Entering verbose mode: Level " + arg + ".")
+        print("Level 0: Normal outputs")
+        print("Level 1: Basic diagnostics")
+        print("Level 2: All diagnostics")
+        print("Level 3: Special use. Not typically implemented")
+
 
 class Entry:
 
@@ -21,21 +41,28 @@ class Entry:
 
     def __init__(self):
         timestamp = int(1000*round(time(),3));
+        if VERBOSE >= 2: print("V2: Entry timestamp: " + str(timestamp))
 
 
 
 
 
 def enter_expense():
-    print("in expense function")
+    if VERBOSE >= 1: print("V1: In expense function")
 
 def update_investments():
-    print("in inventment function")
+    if VERBOSE >= 1: print("V1: In inventment function")
+
+def exit_program():
+    if VERBOSE >= 1: print("V1: In exit program")
+    sys.exit()
 
 in_main_menu = 1;
-menu_entries = ["1: Enter Expense","2: Update Investments Value"];
-menu_functions = {1: enter_expense,
-                  2: update_investments
+menu_entries = ["0: Exit","1: Enter Expense","2: Update Investments Value"];
+menu_functions = {
+    0: exit_program,
+    1: enter_expense,
+    2: update_investments
 }
 
 while in_main_menu:
@@ -49,10 +76,12 @@ while in_main_menu:
     for test_input in menu_entries:
         if menu_selection == test_input[0]:
             valid_input = 1;
+        if int(menu_selection) == 0:
+            break
     if valid_input == 0:
         print("Invalid input.")
         continue
-    print("Valid input.")
+    if VERBOSE >= 2: print("Valid input.")
     menu_functions[int(menu_selection)]()
 
 

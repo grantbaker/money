@@ -57,7 +57,7 @@ class Entry:
     def set_desc(self, desc_in):
         self.desc = desc_in
 
-    def set_big_three(self, title_in, amount_in, method_in)
+    def set_big_three(self, title_in, amount_in, method_in):
         self.title = title_in
         self.amount = amount_in
         self.method = method_in

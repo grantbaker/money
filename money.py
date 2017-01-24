@@ -37,18 +37,62 @@ for (opt, arg) in opts:
 
 class Entry:
 
-    timestamp = -1;
+    timestamp = -1
+
+    labels = ["global"]
 
     def __init__(self):
         timestamp = int(1000*round(time(),3));
         if VERBOSE >= 2: print("V2: Entry timestamp: " + str(timestamp))
 
+    def set_title(self, title_in):
+        self.title = title_in
+
+    def set_amount(self, amount_in):
+        self.amount = amount_in
+
+    def set_method(self, method_in):
+        self.method = method_in
+
+    def set_desc(self, desc_in):
+        self.desc = desc_in
+
+    def set_big_three(self, title_in, amount_in, method_in)
+        self.title = title_in
+        self.amount = amount_in
+        self.method = method_in
+
+    def add_labels(self,label_array):
+        self.labels.extend(label_array)
+
+    def print_labels(self):
+        for l in self.labels:
+            print(l)
 
 
 
+
+def get_amount():
+    amount_in = input("AMOUNT: ")
+    try:
+        amount = float(amount_in)
+    except ValueError:
+        print("Must be a number.")
+        return get_amount()
+    return amount
 
 def enter_expense():
     if VERBOSE >= 1: print("V1: In expense function")
+    title = input("TITLE: ")
+    amount = get_amount()
+    method = input("METHOD: ")
+    desc = input("DESCRIPTION: ")
+    labels = str.split(input("LABELS: "))
+
+    ee = Entry()
+    ee.add_labels(labels)
+    ee.print_labels()
+
 
 def update_investments():
     if VERBOSE >= 1: print("V1: In inventment function")
@@ -71,12 +115,17 @@ while in_main_menu:
         print(menu_item)
     print("- - -")
     menu_selection = input("~:")
+    try:
+        menu_selection = int(menu_selection)
+    except ValueError:
+        print("Invalid input.")
+        continue
     print("==================")
     valid_input = 0;
     for test_input in menu_entries:
-        if menu_selection == test_input[0]:
+        if menu_selection == int(test_input[0]):
             valid_input = 1;
-        if int(menu_selection) == 0:
+        if menu_selection == 0:
             break
     if valid_input == 0:
         print("Invalid input.")

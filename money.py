@@ -34,11 +34,31 @@ for (opt, arg) in opts:
         print("Level 2: All diagnostics")
         print("Level 3: Special use. Not typically implemented")
 
+class Account:
+
+    def __init__(self):
+        print("account created....")
+
+class Exp_Account(Account):
+
+    def __init__(self):
+        Account.__init__(self)
+        print("debit account created")
+
+class Cash_Account(Account):
+
+    def __init__(self):
+        Account.__init__(self)
+        print("cash account created")
+
 
 class Entry:
 
     timestamp = -1
-
+    title = None
+    amount = None
+    method = None
+    desc = None
     labels = ["global"]
 
     def __init__(self):
@@ -69,11 +89,19 @@ class Entry:
         for l in self.labels:
             print(l)
 
+    def print_all(self):
+        if self.title != None: print("TITLE: " + self.title)
+        if self.amount != None: print("AMOUNT: $" + str(self.amount))
+        if self.desc != None: print("DESCRIPTION: " + self.desc)
 
 
+
+def exit_program():
+    if VERBOSE >= 1: print("V1: In exit program")
+    sys.exit()
 
 def get_amount():
-    amount_in = input("AMOUNT: ")
+    amount_in = input("AMOUNT: $")
     try:
         amount = float(amount_in)
     except ValueError:
@@ -90,23 +118,27 @@ def enter_expense():
     labels = str.split(input("LABELS: "))
 
     ee = Entry()
+    ee.set_big_three(title,amount,method)
+
     ee.add_labels(labels)
     ee.print_labels()
+    ee.print_all()
 
 
 def update_investments():
     if VERBOSE >= 1: print("V1: In inventment function")
 
-def exit_program():
-    if VERBOSE >= 1: print("V1: In exit program")
-    sys.exit()
+def test_function():
+    card = Exp_Account();
 
 in_main_menu = 1;
-menu_entries = ["0: Exit","1: Enter Expense","2: Update Investments Value"];
+menu_entries = ["0: Exit","1: Enter Expense","2: Update Investments Value","3: Manage Accounts","4: Test"];
 menu_functions = {
     0: exit_program,
     1: enter_expense,
-    2: update_investments
+    2: update_investments,
+    3: manage_accounts,
+    4: test_function
 }
 
 while in_main_menu:

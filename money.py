@@ -131,9 +131,47 @@ def update_investments():
 def test_function():
     card = Exp_Account();
 
+def print_accounts():
+    if VERBOSE >= 1: print("V1: In print accounts function")
+
+in_manage_accounts = 1;
+accounts_menu_entries = ["0: Return to Main Menu","1: Print all accounts"]
+accounts_menu_functions = {
+    1: print_accounts
+}
+
+def manage_accounts():
+    if VERBOSE >=1: print("V1: In manage accounts function")
+    print("=== MANAGE ACCOUNTS ===")
+    for menu_item in accounts_menu_entries:
+        print(menu_item)
+    print("- - -")
+    menu_selection = input("~:")
+    try:
+        menu_selection = int(menu_selection)
+    except ValueError:
+        print("Invalid input.")
+        manage_accounts()
+        return
+    print("=======================")
+    valid_input = 0
+    for test_input in accounts_menu_entries:
+        if menu_selection == int(test_input[0]):
+            valid_input = 1
+        if menu_selection == 0:
+            return
+    if valid_input == 0:
+        print("Invalid input.")
+        manage_accounts()
+        return
+    if VERBOSE >= 2: print("V2: Valid input.")
+    accounts_menu_functions[int(menu_selection)]()
+    manage_accounts()
+
+
 in_main_menu = 1;
-menu_entries = ["0: Exit","1: Enter Expense","2: Update Investments Value","3: Manage Accounts","4: Test"];
-menu_functions = {
+main_menu_entries = ["0: Exit","1: Enter Expense","2: Update Investments Value","3: Manage Accounts","4: Test"];
+main_menu_functions = {
     0: exit_program,
     1: enter_expense,
     2: update_investments,
@@ -143,7 +181,7 @@ menu_functions = {
 
 while in_main_menu:
     print("=== MONEY MENU ===")
-    for menu_item in menu_entries:
+    for menu_item in main_menu_entries:
         print(menu_item)
     print("- - -")
     menu_selection = input("~:")
@@ -154,7 +192,7 @@ while in_main_menu:
         continue
     print("==================")
     valid_input = 0;
-    for test_input in menu_entries:
+    for test_input in main_menu_entries:
         if menu_selection == int(test_input[0]):
             valid_input = 1;
         if menu_selection == 0:
@@ -162,8 +200,8 @@ while in_main_menu:
     if valid_input == 0:
         print("Invalid input.")
         continue
-    if VERBOSE >= 2: print("Valid input.")
-    menu_functions[int(menu_selection)]()
+    if VERBOSE >= 2: print("V2: Valid input.")
+    main_menu_functions[int(menu_selection)]()
 
 
 
